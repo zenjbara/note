@@ -2,12 +2,20 @@ package com.arkance.note.domain;
 
 import com.arkance.note.utils.Gender;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Teacher {
+
+    public Teacher(String firstName, String lastName, Gender gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+    }
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -22,11 +30,15 @@ public class Teacher {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne
-    @JoinColumn(name="class_id", nullable=false)
+    @OneToOne(mappedBy = "teacher", cascade = CascadeType.REFRESH)
+    @PrimaryKeyJoinColumn
     private Class classRoom;
 
     @OneToOne(mappedBy = "teacher", cascade = CascadeType.REFRESH)
     @PrimaryKeyJoinColumn
     private Subject subject;
+
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 }

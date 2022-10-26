@@ -2,12 +2,14 @@ package com.arkance.note.domain;
 
 import com.arkance.note.utils.Gender;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Student {
 
     @Id
