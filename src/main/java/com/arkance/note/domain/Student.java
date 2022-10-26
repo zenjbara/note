@@ -12,6 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Student {
 
+    public Student(String firstName, String lastName, Gender gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -31,4 +37,8 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private List<Note> notes;
+
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 }

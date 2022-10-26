@@ -1,6 +1,9 @@
 package com.arkance.note.controller;
 
+import com.arkance.note.domain.Student;
 import com.arkance.note.service.ClassService;
+import com.arkance.note.utils.Gender;
+import com.arkance.note.utils.dto.ClassAndStudentDTO;
 import com.arkance.note.utils.dto.ClassDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(NoteController.class)
 public class NoteControllerTest {
 
+    public static final String BACCALAUREAT = "baccalaureat";
     @MockBean
     private ClassService classService;
 
@@ -30,15 +34,30 @@ public class NoteControllerTest {
     @Test
     public void should_return_classes_and_principal_teacher() throws Exception {
         given(classService.getClassesAndPrincipalTeacher())
-                .willReturn(Arrays.asList(new ClassDTO("baccalaureat", "Adam Benjbara")));
+                .willReturn(Arrays.asList(new ClassDTO(BACCALAUREAT, "Adam Benjbara")));
 
         MvcResult result = mockMvc.perform(get("/classes"))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andReturn();
 
-        assertThat(result.getResponse().getContentAsString()).contains("levelName\":\"baccalaureat");
+        assertThat(result.getResponse().getContentAsString()).contains("levelName\":" + BACCALAUREAT);
 
+    }
+
+    @Test
+    public void should_return_students_by_class() throws Exception {
+        Long classId = 1l;
+
+        given(classService.getStudentByClass(classId))
+                .willReturn(new ClassAndStudentDTO(BACCALAUREAT, Arrays.asList("Anna Aquino","Halene leval")));
+
+        MvcResult result = mockMvc.perform(get("/class/"+classId+"/students"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        assertThat(result.getResponse().getContentAsString()).contains("studentsFullName\":[\"Anna" );
     }
 
 }
