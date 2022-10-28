@@ -1,11 +1,10 @@
 package com.arkance.note.controller;
 
+import com.arkance.note.Repository.TeacherRepository;
 import com.arkance.note.service.ClassService;
 import com.arkance.note.service.StudentService;
-import com.arkance.note.utils.dto.ClassAndStudentDTO;
-import com.arkance.note.utils.dto.ClassDTO;
-import com.arkance.note.utils.dto.StudentDTO;
-import com.arkance.note.utils.dto.StudentNote;
+import com.arkance.note.service.TeacherService;
+import com.arkance.note.utils.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +19,13 @@ public class NoteController {
 
     private StudentService studentService;
 
+    private TeacherService teacherService;
+
     @Autowired
-    public NoteController(ClassService classService, StudentService studentService) {
+    public NoteController(ClassService classService, StudentService studentService, TeacherService teacherService) {
         this.studentService = studentService;
         this.classService = classService;
+        this.teacherService = teacherService;
     }
 
     /**
@@ -60,6 +62,11 @@ public class NoteController {
     @GetMapping("/students")
     public List<StudentDTO> studentsSortedByName(){
         return studentService.getStudents();
+    }
+
+    @GetMapping("/teachers/subject")
+    public List<TeacherDTO> teachersSubject(){
+        return teacherService.getTeachersAndSubjects();
     }
 
 }
