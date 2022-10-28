@@ -1,8 +1,10 @@
 package com.arkance.note.controller;
 
+import com.arkance.note.Repository.TeacherRepository;
 import com.arkance.note.domain.Student;
 import com.arkance.note.service.ClassService;
 import com.arkance.note.service.StudentService;
+import com.arkance.note.service.TeacherService;
 import com.arkance.note.utils.Gender;
 import com.arkance.note.utils.dto.ClassAndStudentDTO;
 import com.arkance.note.utils.dto.ClassDTO;
@@ -33,6 +35,9 @@ public class NoteControllerTest {
 
     @MockBean
     private StudentService studentService;
+
+    @MockBean
+    private TeacherService teacherService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -93,6 +98,15 @@ public class NoteControllerTest {
                 .andReturn();
 
         assertThat(result.getResponse().getContentAsString()).contains("firstName\":\"Lisa" );
+    }
+
+    @Test
+    public void should_return_teachers_and_subject() throws Exception {
+
+        mockMvc.perform(get("/teachers/subject"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
     }
 
 }
