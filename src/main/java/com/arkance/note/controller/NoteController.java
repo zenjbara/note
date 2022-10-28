@@ -4,6 +4,7 @@ import com.arkance.note.service.ClassService;
 import com.arkance.note.service.StudentService;
 import com.arkance.note.utils.dto.ClassAndStudentDTO;
 import com.arkance.note.utils.dto.ClassDTO;
+import com.arkance.note.utils.dto.StudentDTO;
 import com.arkance.note.utils.dto.StudentNote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +51,15 @@ public class NoteController {
     @GetMapping("/student/{studentId}/notes")
     public List<StudentNote> studentNotesBySubject(@PathVariable Long studentId){
         return studentService.getStudentNotesBySubject(studentId);
+    }
+
+    /**
+     *
+     * @return student list sorted by first-name and last-name
+     */
+    @GetMapping("/students")
+    public List<StudentDTO> studentsSortedByName(){
+        return studentService.getStudents();
     }
 
 }

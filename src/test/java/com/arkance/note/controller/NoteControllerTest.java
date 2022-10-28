@@ -6,6 +6,7 @@ import com.arkance.note.service.StudentService;
 import com.arkance.note.utils.Gender;
 import com.arkance.note.utils.dto.ClassAndStudentDTO;
 import com.arkance.note.utils.dto.ClassDTO;
+import com.arkance.note.utils.dto.StudentDTO;
 import com.arkance.note.utils.dto.StudentNote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,20 @@ public class NoteControllerTest {
                 .andReturn();
 
         assertThat(result.getResponse().getContentAsString()).contains("subjectName\":\"SVT" );
+    }
+
+    @Test
+    public void should_return_students_sorted_by_name() throws Exception {
+
+        given(studentService.getStudents())
+                .willReturn(Arrays.asList(new StudentDTO("Lisa", "legrand", Gender.FEMALE)));
+
+        MvcResult result = mockMvc.perform(get("/students"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        assertThat(result.getResponse().getContentAsString()).contains("firstName\":\"Lisa" );
     }
 
 }
