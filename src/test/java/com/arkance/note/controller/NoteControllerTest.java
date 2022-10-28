@@ -2,9 +2,11 @@ package com.arkance.note.controller;
 
 import com.arkance.note.domain.Student;
 import com.arkance.note.service.ClassService;
+import com.arkance.note.service.StudentService;
 import com.arkance.note.utils.Gender;
 import com.arkance.note.utils.dto.ClassAndStudentDTO;
 import com.arkance.note.utils.dto.ClassDTO;
+import com.arkance.note.utils.dto.StudentNote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,6 +30,9 @@ public class NoteControllerTest {
     @MockBean
     private ClassService classService;
 
+    @MockBean
+    private StudentService studentService;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -41,7 +46,7 @@ public class NoteControllerTest {
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andReturn();
 
-        assertThat(result.getResponse().getContentAsString()).contains("levelName\":" + BACCALAUREAT);
+        assertThat(result.getResponse().getContentAsString()).contains("levelName\":\"" + BACCALAUREAT);
 
     }
 
@@ -58,6 +63,21 @@ public class NoteControllerTest {
                 .andReturn();
 
         assertThat(result.getResponse().getContentAsString()).contains("studentsFullName\":[\"Anna" );
+    }
+
+    @Test
+    public void should_return_student_note_by_subject() throws Exception {
+        Long studentId = 1l;
+
+        given(studentService.getStudentNotesBySubject(studentId))
+                .willReturn(Arrays.asList(new StudentNote("SVT", 17.5)));
+
+        MvcResult result = mockMvc.perform(get("/student/"+studentId+"/notes"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        assertThat(result.getResponse().getContentAsString()).contains("subjectName\":\"SVT" );
     }
 
 }

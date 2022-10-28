@@ -18,7 +18,7 @@ public class Class {
 
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="level_name", length=50, nullable=false)

@@ -11,17 +11,21 @@ import java.util.List;
 @NoArgsConstructor
 public class Subject {
 
+    public Subject(String name) {
+        this.name = name;
+    }
+
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="last_name", length=50, nullable=false)
     private String name;
 
-    @OneToOne
+  /**  @OneToOne
     @MapsId
     @JoinColumn(name = "teacher_id")
-    private Class teacher;
+    private Teacher teacher;*/
 
     @OneToMany(mappedBy = "subject")
     private List<Note> notes;

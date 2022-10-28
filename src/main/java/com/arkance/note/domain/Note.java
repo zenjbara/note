@@ -11,8 +11,16 @@ import java.util.List;
 @NoArgsConstructor
 public class Note {
 
+
+    public Note(Student student, Subject subject, Double result) {
+        this.student = student;
+        this.subject = subject;
+        this.result = result;
+    }
+
     @EmbeddedId
-    private NoteKey id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private NoteKey id = new NoteKey();
 
     @ManyToOne
     @MapsId("subjectId")
@@ -24,5 +32,5 @@ public class Note {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    private Float result;
+    private Double result;
 }

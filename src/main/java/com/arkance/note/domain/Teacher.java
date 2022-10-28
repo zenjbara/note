@@ -18,7 +18,7 @@ public class Teacher {
     }
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="first_name", length=50, nullable=false)
@@ -34,7 +34,7 @@ public class Teacher {
     @PrimaryKeyJoinColumn
     private Class classRoom;
 
-    @OneToOne(mappedBy = "teacher", cascade = CascadeType.REFRESH)
+    @OneToOne(/**mappedBy = "teacher", cascade = CascadeType.REFRESH **/)
     @PrimaryKeyJoinColumn
     private Subject subject;
 

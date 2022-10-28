@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class Student {
     }
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="first_name", length=50, nullable=false)
@@ -35,8 +36,15 @@ public class Student {
     @JoinColumn(name="class_id", nullable=false)
     private Class classRoom;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student" )//, cascade = CascadeType.PERSIST)
     private List<Note> notes;
+
+    public void addNote(Note note){
+        if(this.getNotes() == null){
+            notes = new ArrayList<>();
+        }
+        notes.add(note);
+    }
 
     public String getFullName(){
         return firstName + " " + lastName;
